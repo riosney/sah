@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:sec="http://www.springframework.org/security/facelets/tags"
+	xmlns:p="http://primefaces.org/ui">
+	
+		<h:form id="formMenu"><!-- Formulário em fase de desenvolvimento --> 
+			
+			<div class="ui-menubar ui-widget ui-corner-all ui-helper-clearfix">
+			
+				<p:menubar>					
+					<p:submenu label="Serviço" icon="ui-icon-document">
+						<sec:ifAnyGranted roles="ROLE_SUPERADMINISTRADOR">
+						<p:submenu label="Usuário">					
+							<p:menuitem value="Listar" action="/admin/principal" />
+							<p:menuitem value="Informações" action="/atendimento/principal" />
+							<p:menuitem value="Cadastrar" action="#{usuarioBean.novo}" />
+						</p:submenu>
+						</sec:ifAnyGranted>
+		            	<p:menuitem value="Sair" onclick="document.location='#{request.contextPath}/j_spring_security_logout'" /> 
+		            	
+	            	</p:submenu>	            	
+	            	
+	            	<sec:ifAnyGranted roles="ROLE_SUPERADMINISTRADOR">
+	            	<p:submenu label="Usuário" icon="ui-icon-person">
+	            		<p:submenu label="Gerenciar">
+	            			 <p:menuitem value="Estado"
+	            			 	action="/admin/estado" />
+            			 	<p:menuitem value="Cidade"
+            			 		action="/admin/cidade" />
+            			 	<p:menuitem value="Setor"
+            			 		action="/admin/setor" />
+            			 	<p:menuitem value="Projeto"
+            			 		action="/admin/projeto" />
+            			 	<p:menuitem value="Profissão"
+            			 		action="/admin/profissao" />
+            			 	<p:menuitem value="Bairro"
+            			 		action="/admin/bairro" />
+	            		</p:submenu>
+	            	</p:submenu>
+	            	</sec:ifAnyGranted>
+	            	
+	            	<p:submenu label="Setor" icon="ui-icon-person">
+	            		<sec:ifAnyGranted roles="ROLE_SUPERADMINISTRADOR, ROLE_MCMV">
+			            	<p:submenu label="MCMV" icon="ui-icon-person">
+			            		<p:menuitem value="Atendimento" action="#{menuBean.setorMCMV}" />
+			            	</p:submenu>
+		            	</sec:ifAnyGranted>
+		            	<sec:ifAnyGranted roles="ROLE_SUPERADMINISTRADOR, ROLE_DPS">
+		            	<p:submenu label="DPS" icon="ui-icon-person">
+		            		<p:menuitem value="Atendimento" action="#{menuBean.setorDPS}" />
+		            	</p:submenu>
+		            	</sec:ifAnyGranted>
+		            	<sec:ifAnyGranted roles="ROLE_SUPERADMINISTRADOR, ROLE_VICE_PRESIDENCIA">
+		            	<p:submenu label="Vice-Presidência" icon="ui-icon-person">
+		            		<p:menuitem value="Atendimento" action="#{menuBean.setorVicePresidencia}" />
+		            	</p:submenu>
+		            	</sec:ifAnyGranted>
+		            	<sec:ifAnyGranted roles="ROLE_SUPERADMINISTRADOR, ROLE_PRESIDENCIA">
+		            	<p:submenu label="Presidência" icon="ui-icon-person">
+		            		<p:menuitem value="Atendimento" action="#{menuBean.setorPresidencia}" />
+		            	</p:submenu>
+		            	</sec:ifAnyGranted>
+		            	<sec:ifAnyGranted roles="ROLE_SUPERADMINISTRADOR, ROLE_DPH">
+		            	<p:submenu label="DPH" icon="ui-icon-person">
+		            		<p:menuitem value="Atendimento" action="#{menuBean.setorDPH}" />
+		            	</p:submenu>
+		            	</sec:ifAnyGranted>
+		            	<sec:ifAnyGranted roles="ROLE_SUPERADMINISTRADOR, ROLE_PROJUR">
+		            	<p:submenu label="PROJUR" icon="ui-icon-person">
+		            		<p:menuitem value="Atendimento" action="#{menuBean.setorPROJUR}" />
+		            	</p:submenu>
+		            	</sec:ifAnyGranted>
+		            	<sec:ifAnyGranted roles="ROLE_SUPERADMINISTRADOR, ROLE_DPCOM">
+		            	<p:submenu label="DPCOM" icon="ui-icon-person">
+		            		<p:menuitem value="Atendimento" action="#{menuBean.setorDPCOM}" />
+		            	</p:submenu>
+		            	</sec:ifAnyGranted>
+		            	<sec:ifAnyGranted roles="ROLE_SUPERADMINISTRADOR, ROLE_ALUGUEL_SOCIAL">
+		            	<p:submenu label="Aluguel Social" icon="ui-icon-person">
+		            		<p:menuitem value="Atendimento" action="#{menuBean.setorAluguelSocial}" />
+		            	</p:submenu>
+		            	</sec:ifAnyGranted>
+		            	<sec:ifAnyGranted roles="ROLE_SUPERADMINISTRADOR, ROLE_DAF">
+		            	<p:submenu label="DAF" icon="ui-icon-person">
+		            		<p:menuitem value="Atendimento" action="#{menuBean.setorDAF}" />
+		            	</p:submenu>
+		            	</sec:ifAnyGranted>
+	            	</p:submenu>
+	            	
+	            	
+	            	<p:submenu label="Atendimento" icon="ui-icon-contact">	            			
+							<p:menuitem value="Pesquisar Cidadão" action="#{menuBean.pesquisarCidadao}" />
+							<p:menuitem value="Histórico" action="#{menuBean.atendimentoHistorico}" />
+							<sec:ifAnyGranted roles="ROLE_SUPERADMINISTRADOR, ROLE_ATENDIMENTO">							
+								<p:menuitem value="Cadastro de Cidadão" action="#{menuBean.cadastrarCidadao}" />
+								<p:menuitem value="Novo atendimento" action="#{menuBean.novoAtendimento}" />
+							</sec:ifAnyGranted>
+					</p:submenu>
+	            	<p:submenu label="Ajuda" icon="ui-icon-help">
+            			<sec:ifAnyGranted roles="ROLE_SUPERADMINISTRADOR">
+							<p:menuitem value="Documentação" url="#" />
+						</sec:ifAnyGranted>
+						<p:menuitem value="Sobre" action="/restrito/sobre" />
+					</p:submenu>					
+					
+				</p:menubar>
+				
+			</div>	 
+			 
+		</h:form>
+
+
+</html>

@@ -1,0 +1,81 @@
+/* DUAS FONTES CSS FRAMEWORK 1.0 */
+/* 11/02/2009 */
+
+
+/* CSS RESET */
+
+* {  	
+	padding: 0; 
+	margin: 0;
+	font-family: tahoma;
+	font-size: 11px;
+	color: #2c2c2c;
+}
+a { 
+	text-decoration: none; 
+}
+a:hover { 
+	text-decoration: underline; 
+}
+a img { 
+	border: 0;
+}
+ul, ol { 
+	list-style: none;
+}
+h1, h2, h3, h4, h5, h6 { 
+	font-size: 100%; 
+}
+addreess, strong, p {
+	font-style: normal;
+	color: inherit;
+	font-size: inherit;
+}
+fieldset {
+	border-style: solid;
+	border-width: 1px;
+}
+input {
+	font-family: ;
+	font-size: ;
+	border: 0;
+}
+
+textarea { 
+	overflow: auto; 
+	font-family: ;
+	font-size: ;
+}
+
+/* CLASSES UTEIS */
+
+.fl {
+	float: left;
+}
+
+.fr {
+	float: right;
+}
+
+.txtIndent {
+	text-indent: -999px;
+	overflow: hidden;
+	display: block;
+}
+
+input.txtIndent {
+	cursor: pointer;
+	*text-transform: uppercase;
+}
+
+.dn {
+	display: none;
+}
+
+.mgBottom4{
+	margin-bottom: 4px !important;
+}
+
+.background_none {
+	background: none !important;
+}

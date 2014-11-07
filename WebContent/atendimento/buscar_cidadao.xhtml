@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:stella="http://stella.caelum.com.br/faces2">
+
+<ui:composition template="/templates/principal.xhtml">
+<ui:define name="titulo">Buscar Cidadão</ui:define>
+<ui:define name="corpo">
+
+	<h:form id="buscarCidadao">
+		<p:panel id="panel" header="Buscar por CPF" style="margin-bottom:10px;">
+		<p:messages id="msgs" autoUpdate="true" />
+		
+			<h:panelGrid columns="3" id="gridt">
+				<p:inputMask id="cpf" label="CPF" value="#{pessoaBean.selecionada.cpf}" size="16"				 
+					converterMessage="Erro de converte" mask="999.999.999-99">
+					<stella:validateCPF formatted="true"/>
+				</p:inputMask>
+				<p:commandButton value="Buscar" update="listap msgs @parent" action="#{pessoaBean.confereCadastro}">
+					<f:param name="buscaCpf" value="buscarCidadao" />
+				</p:commandButton>
+			</h:panelGrid>
+			
+			<h:panelGrid id="listap">
+			
+				<h:inputHidden value="#{pessoaBean.selecionada.id}" />
+			
+				<p:row>
+	        		<p:column colspan="2">
+	        			<h:graphicImage library="imagens" name="SEXO_#{pessoaBean.selecionada.sexo}.png" style="border:0"/>
+	        		</p:column>
+	        	</p:row>
+	        	
+	        	<p:row>
+	        		<p:column>
+	            		<h:outputLabel for="pessoaCpf" value="CPF: " />
+	            	</p:column>
+	            	<p:column>
+	            		<h:outputText id="pessoaCpf" value="#{pessoaBean.valorComFormato}" />
+	            	</p:column>
+	        	</p:row>
+	        	
+	        	<p:row>
+	        		<p:column>
+	        			<h:outputLabel for="nome" value="Nome: " />
+	        		</p:column>
+	        		<p:column>		        		
+	        			<h:outputText id="nome" value="#{pessoaBean.selecionada.nome}" />
+	        		</p:column>
+	        	</p:row>
+	        	
+	        	<p:row>
+	        		<p:column>
+	        			<h:outputLabel for="dtnascimento" value="Nascimento: " />
+	        		</p:column>
+	        		<p:column>		        		
+	        			<h:outputText id="dtnascimento" value="#{pessoaBean.selecionada.dtNascimento}">
+	        				<f:convertDateTime dateStyle="short" pattern="dd/MM/yyyy" timeZone="GMT-3" />
+	        			</h:outputText>
+	        		</p:column>
+	        	</p:row>
+	        	
+	        	<p:row>
+	        		<p:column>
+	        			<h:outputLabel for="rg" value="RG: " />
+	        		</p:column>
+	        		<p:column>		        		
+	        			<h:outputText id="rg" value="#{pessoaBean.selecionada.rg}" />
+	        		</p:column>
+	        	</p:row>
+	        	
+	        	<p:row>
+	        		<p:column>
+	        			<h:outputLabel for="orgaoexpeditor" value="Orgão expeditor: " />
+	        		</p:column>
+	        		<p:column>		        		
+	        			<h:outputText id="orgaoexpeditor" value="#{pessoaBean.selecionada.orgaoExpeditor}" />
+	        		</p:column>
+	        	</p:row>
+	        	
+	        	<p:row>
+	        		<p:column>
+	        			<h:outputLabel for="bairro" value="Bairro: " />
+	        		</p:column>
+	        		<p:column>		        		
+	        			<h:outputText id="bairro" value="#{pessoaBean.selecionada.bairro.nome}" />
+	        		</p:column>
+	        	</p:row>
+	        	
+	        	<p:row>
+	        		<p:column>
+	        			<h:outputLabel for="tipograuescolaridade" value="Grau escolaridade: " />
+	        		</p:column>
+	        		<p:column>		        		
+	        			<h:outputText id="tipograuescolaridade" value="#{pessoaBean.selecionada.tipoGrauEscolaridade.nome}" />
+	        		</p:column>
+	        	</p:row>
+	        	
+	        	<p:row>
+	        		<p:column>
+	        			<h:outputLabel for="telefone" value="Telefone(s): " />
+	        		</p:column>
+	        		<p:dataTable id="listaTelefone" value="#{pessoaBean.listaPessoaTel}" 
+	        			emptyMessage="" var="fones">
+	        		<p:column>		        		
+	        			<h:outputText id="telefone" value="#{fones.numero}" />
+	        		</p:column>
+	        		</p:dataTable>
+	        	</p:row>
+	        	
+	        	<p:row>
+	        		<p:column>
+	        			<h:outputLabel for="deficiente" value="Deficiente: " />
+	        		</p:column>
+	        		<p:dataTable id="listaDeficiente" value="#{pessoaBean.listaDef}" 
+	        			emptyMessage="" var="def">
+	        		<p:column>		        		
+	        			<h:outputText id="deficiente" value="#{def.dstipodeficienciafisica}" />
+	        		</p:column>
+	        		</p:dataTable>
+	        	</p:row>
+	        	
+	        	<p:row>
+	        		<p:column>
+	        			<h:outputLabel for="nomepai" value="Nome do pai: " />
+	        		</p:column>
+	        		<p:column>		        		
+	        			<h:outputText id="nomepai" value="#{pessoaBean.selecionada.nomePai}" />
+	        		</p:column>
+	        	</p:row>
+	        	
+	        	<p:row>
+	        		<p:column>
+	        			<h:outputLabel for="nomemae" value="Nome da mãe: " />
+	        		</p:column>
+	        		<p:column>		        		
+	        			<h:outputText id="nomemae" value="#{pessoaBean.selecionada.nomeMae}" />
+	        		</p:column>
+	        	</p:row>
+	        	
+	            <p:row>
+	        		<p:column>
+						<p:commandButton action="#{pessoaBean.editar}" value="Editar">							
+						<f:setPropertyActionListener target="#{pessoaBean.selecionada}" 
+							value="#{pessoaBean.selecionada}" />
+						</p:commandButton>
+	            	</p:column>		
+	            </p:row>
+				
+			</h:panelGrid>
+			</p:panel>			
+		</h:form>
+
+</ui:define>
+</ui:composition>
+</html>

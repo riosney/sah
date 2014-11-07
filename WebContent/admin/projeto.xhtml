@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/templates/principal.xhtml">
+	<ui:define name="titulo">Cadastro de Projeto(s)</ui:define>
+	<ui:define name="corpo">
+		
+		<p:messages id="msgs" autoUpdate="true" />
+		<h1>Cadastro de Projeto</h1>
+		
+		<h:form id="edicaoProjeto">
+			<h:inputHidden value="#{projetoBean.selecionada.id}" />
+			<h:panelGrid columns="2">
+				<h:outputLabel value="Projeto: " for="projeto" />
+				<h:inputText requiredMessage="Opa! Falta nome do projeto" id="projeto"
+					value="#{projetoBean.selecionada.nome}" required="true" size="50" />
+				
+				<h:outputLabel value="Sigla: " for="sigla" />
+				<h:inputText requiredMessage="Opa! Falta a sigla" id="sigla"
+					value="#{projetoBean.selecionada.sigla}" required="true" size="10" />
+					
+				<h:commandButton class="button ui-corner-all" value="Salvar" action="#{projetoBean.salvar}">
+					<f:ajax execute="@form" render=":edicaoProjeto :listagemProjeto" />
+				</h:commandButton>
+			</h:panelGrid>
+		</h:form>
+		<br />
+		
+		<h:form id="listagemProjeto">
+			<h:dataTable value="#{projetoBean.lista}" var="projeto" rendered="#{!empty projetoBean.lista}">
+				<h:column>
+					<f:facet name="header">Projeto</f:facet>
+					<h:outputText value="#{projeto.nome}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">Sigla</f:facet>
+					<h:outputText value="#{projeto.sigla}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">Editar</f:facet>
+					<h:commandLink>
+						<f:ajax execute="@this" render=":edicaoProjeto" />
+						<h:graphicImage library="imagens" name="editar16.png" />
+						<f:setPropertyActionListener target="#{projetoBean.selecionada}" value="#{projeto}" />
+					</h:commandLink>
+				</h:column>
+				<h:column>
+					<f:facet name="header">Excluir</f:facet>
+					<h:commandLink action="#{projetoBean.excluir}">
+						<f:ajax execute="@this" render=":listagemProjeto" />
+						<h:graphicImage library="imagens" name="excluir16.png" />
+						<f:setPropertyActionListener target="#{projetoBean.selecionada}" value="#{projeto}" />
+					</h:commandLink>
+				</h:column>
+			</h:dataTable>
+		</h:form>
+	
+	</ui:define>
+</ui:composition>
+</html>

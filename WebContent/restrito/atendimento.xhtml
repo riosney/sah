@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:stella="http://stella.caelum.com.br/faces2">
+
+<ui:composition template="/templates/principal.xhtml">
+	<ui:define name="titulo">Atendimento</ui:define>
+	<ui:define name="corpo">
+		
+		<h:form id="buscaCpf">
+			<p:messages id="msgs" autoUpdate="true" />			
+			<p:panel header="Buscar por CPF">
+				<h:panelGrid columns="3" id="gridt">
+					<p:inputMask id="cpf" label="CPF" value="#{pessoaBean.selecionada.cpf}" size="16"				 
+						converterMessage="Erro de converte" mask="999.999.999-99"
+						
+						binding="#{pessoaBean.uiCPF}">
+						<stella:validateCPF formatted="true"/>
+					</p:inputMask>
+					<p:commandButton value="Buscar" update="listapessao msgs @parent" 
+						action="#{pessoaBean.confereCadastro}">
+						<f:param name="buscaCpf" value="novoAtendimento" />
+					</p:commandButton>
+				</h:panelGrid>
+				
+				<h:panelGrid id="listapessao">
+			        
+		        	<p:row>
+			        	<p:column>
+	        				<h:outputLabel for="nome" value="Nome: " />
+	        			</p:column>
+			        	<p:column>  
+			                <h:outputText id="nome" value="#{pessoaBean.selecionada.nome}" />  
+			            </p:column>
+		            </p:row>
+		            
+		            <p:row>
+			            <p:column>
+	        				<h:outputLabel for="cpfpessoa" value="CPF: " />
+	        			</p:column>
+			            <p:column>  
+			                <h:outputText id="cpfpessoa" value="#{pessoaBean.valorComFormato}" />
+			            </p:column>
+		            </p:row>
+		            
+		            <p:row>
+		            <p:column>  
+		                <p:commandLink styleClass="campoEnfase" value="Fazer atendimento" action="#{historicoAtendimentoBean.novo}"
+           					ajax="false">
+           					<f:param name="idpessoa" value="#{pessoaBean.selecionada.id}" />
+           				</p:commandLink>
+		            </p:column>
+		       	    </p:row>		            
+			        
+				</h:panelGrid>
+			</p:panel>			
+		</h:form>
+		
+	</ui:define>
+	
+</ui:composition>
+</html>

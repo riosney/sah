@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sec="http://www.springframework.org/security/facelets/tags">
+
+<ui:composition template="/templates/principal.xhtml">
+	<ui:define name="titulo">Novo Atendimento</ui:define>
+	<ui:define name="corpo">
+
+		<h:form id="fazerAtendimento">			
+			<p:messages id="msgs" autoUpdate="true" />
+			<h:inputHidden value="#{historicoAtendimentoBean.selecionada.id}" />
+			<h:panelGrid id="atendimento">	
+				<p:column headerText="Nome">  
+	                <h:outputText rendered="#{pessoaBean.selecionada.nome} == true" value="#{pessoaBean.selecionada.nome}" />
+				</p:column>
+							
+				<p:column>
+					<h:outputLabel styleClass="bold" value="Escolha o Setor: " />
+					<h:selectOneMenu id="setor" value="#{historicoAtendimentoBean.selecionada.setor}" required="true"				
+							class="ui-inputfield ui-widget ui-state-default ui-corner-all"
+							requiredMessage="Falta o setor">
+							<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>
+							<f:selectItems value="#{setorBean.lista}" var="tipo" itemLabel="#{tipo.nome}" />
+					</h:selectOneMenu>
+				</p:column>
+				<p:column>
+					<h:outputLabel styleClass="bold" value="Assunto: " for="assuntooutros" />
+					<h:inputText id="assuntooutros" label="assuntooutros" value="#{historicoAtendimentoBean.selecionada.assuntooutros}"
+					maxlength="350" required="true" requiredMessage="Falta o assunto!" size="70">
+					<f:validateRegex pattern="[^\?\[\]\=\*\#\+\$\%\@\/\-\.]{3,300}" />
+					</h:inputText>					
+				</p:column>
+				<p:column>
+					<h3>Observações</h3>
+						<p:inputTextarea rows="5" cols="70" value="#{historicoAtendimentoBean.selecionada.observacoes}" />
+				</p:column>
+				<p:column>  
+	                <f:facet name="header">  
+	                    <h:outputText value="Novo Atendimento" />  
+	                </f:facet>  
+	                <p:commandButton value="Salvar" action="#{historicoAtendimentoBean.salvar}"
+       					update="fazerAtendimento">
+       					<f:param name="idpessoa" value="#{historicoAtendimentoBean.idPessoaLong}" />
+       					<f:param name="estadoDoAtendimento" value="emEspera" />
+       				</p:commandButton>			
+	            </p:column> 	
+				</h:panelGrid>	
+		</h:form>
+
+	</ui:define>	
+</ui:composition>
+</html>

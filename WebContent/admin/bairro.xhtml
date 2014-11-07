@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/templates/principal.xhtml">
+	<ui:define name="titulo">Listagem de bairros</ui:define>
+	<ui:define name="corpo">
+		
+	<h:form>
+		<p:dataTable id="listaBairro" value="#{bairroBean.lista}" var="bairro"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} 
+			{PageLinks} {NextPageLink} {LastPageLink}" 
+			paginator="true" rows="10" style="margin-bottom:20px">
+			
+			<f:facet name="header">Paginação</f:facet>
+			
+			<p:column>
+				<f:facet name="header">Nome</f:facet>
+				<h:outputText value="#{bairro.nome}" />
+			</p:column>
+		</p:dataTable>
+		
+		<h3>Exportar em PDF</h3>
+		<h:commandLink>
+        	<p:graphicImage library="imagens" name="pdf.png" />
+        	<p:dataExporter type="pdf" target="listaBairro" fileName="bairros" />
+        </h:commandLink>
+    	
+	</h:form>
+	
+	<h:panelGrid columns="4">
+		<h:form id="impressao">
+			<h:commandLink>
+				<f:setPropertyActionListener target="#{bairroBean.tipoRelatorio}" value="1" />
+				<p:fileDownload value="#{bairroBean.arquivoRetorno}" />
+				<h:graphicImage library="imagens" name="pdf.png" title="Imprimir PDF" />
+			</h:commandLink>
+			<h:commandLink>
+				<f:setPropertyActionListener target="#{bairroBean.tipoRelatorio}" value="2" />
+				<p:fileDownload value="#{bairroBean.arquivoRetorno}" />
+				<h:graphicImage library="imagens" name="excel.png" title="Imprimir Excel" />
+			</h:commandLink>
+			<h:commandLink>
+				<f:setPropertyActionListener target="#{bairroBean.tipoRelatorio}" value="3" />
+				<p:fileDownload value="#{bairroBean.arquivoRetorno}" />
+				<h:graphicImage library="imagens" name="html.png" title="Imprimir HTML" />
+			</h:commandLink>
+			<h:commandLink>
+				<f:setPropertyActionListener target="#{bairroBean.tipoRelatorio}" value="4" />
+				<p:fileDownload value="#{bairroBean.arquivoRetorno}" />
+				<h:graphicImage library="imagens" name="ods.png" title="Imprimir Planilha Open Office" />
+			</h:commandLink>
+		</h:form>
+	</h:panelGrid>
+		
+	</ui:define>
+</ui:composition>
+</html>

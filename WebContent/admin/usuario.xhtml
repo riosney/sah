@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+	
+<ui:composition template="/templates/principal.xhtml">
+	<ui:define name="titulo">Cadastro de Usuários</ui:define>
+	<ui:define name="corpo">
+	<h1>Cadastro de Usuário</h1>
+	
+		<h:form id="cadastro">
+			<p:growl id="msgs" showDetail="true" />
+			
+			<h:inputHidden value="#{usuarioBean.usuario.id}"/>
+			<h:inputHidden value="#{usuarioBean.usuario.ativo}"/>
+			<h:inputHidden value="#{usuarioBean.destinoSalvar}"/>
+			<h:inputHidden value="#{usuarioBean.senhaCriptografada}" />
+			
+			<h:panelGrid>
+			
+				<p:row>
+					<p:column>
+						<h:outputLabel value="Nome:" for="nome"/>
+					</p:column>					
+				</p:row>
+				<p:row>
+					<p:column colspan="2">
+						<h:inputText id="nome" label="Nome" value="#{usuarioBean.usuario.nome}" size="77"
+							maxlength="30" required="true" requiredMessage="Você não tem nome?">
+							<f:validateLength minimum="10" maximum="100"/>
+						</h:inputText>
+					</p:column>
+				</p:row>
+				
+				<p:row>
+					<p:column>
+						<h:outputLabel value="Data Nascimento" for="data"/>
+					</p:column>					
+				</p:row>
+				<p:row>
+					<p:column colspan="2">
+						<p:inputMask id="data" label="Data Nascimento" value="#{usuarioBean.usuario.nascimento}"
+			            	size="11" required="true" locale="pt_BR" mask="99/99/9999" requiredMessage="Falta data de nascimento!">
+			            	<f:convertDateTime dateStyle="short" pattern="dd/MM/yyyy" timeZone="GMT-3" />            	
+			            </p:inputMask>						
+					</p:column>
+				</p:row>
+				
+				<p:row>
+					<p:column>
+						<h:outputLabel value="Celular:" for="celular"/>
+					</p:column>					
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:column colspan="2">
+							<h:inputText id="celular" label="Celular" value="#{usuarioBean.usuario.celular}" size="11"/>
+						</p:column>
+					</p:column>
+				</p:row>
+				
+				<p:row>
+					<p:column>
+						<h:outputLabel value="e-Mail:" for="email"/>
+					</p:column>					
+				</p:row>
+				<p:row>
+					<p:column>
+						<h:inputText id="email" label="e-Mail" value="#{usuarioBean.usuario.email}"
+						size="77" maxlength="100" required="true" validatorMessage="e-mail obrigatório"
+						converterMessage="e-mail inválido">
+						<f:validateRegex pattern="[a-zA-Z0-9\-\_\.]+@[a-zA-Z0-9\-\_\.]+"/>
+						</h:inputText>
+					</p:column>
+					<p:column>
+						<h:message for="email"/>
+					</p:column>					
+				</p:row>				
+				
+				<p:row>
+					<p:column>
+						<h:outputLabel value="Idioma:" for="idioma"/>
+					</p:column>					
+				</p:row>
+				<p:row>
+					<p:column colspan="2">
+						<h:selectOneMenu id="idioma" value="#{usuarioBean.usuario.idioma}">				
+							<f:selectItem itemValue="pt_BR" itemLabel="Português"/>
+							<f:selectItem itemValue="en_US" itemLabel="English"/>
+							<f:selectItem itemValue="es_ES" itemLabel="Espanol"/>
+						</h:selectOneMenu>
+					</p:column>
+				</p:row>
+				
+				<p:row>
+					<p:column>
+						<h:outputLabel value="Login:" for="login"/>
+					</p:column>					
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:column colspan="2">
+							<h:inputText id="login" label="Login" value="#{usuarioBean.usuario.login}"
+								size="30" maxlength="32" required="true"
+								validatorMessage="Login deve ter no mínimo 5 e no máximo 32 caracters e só 
+								pode ter os simbolos '.' e '_'.">
+								<f:validateRegex pattern="([a-z]|[0-9]|[.]|[_]){5,30}" />
+							</h:inputText>
+					</p:column>
+					</p:column>
+				</p:row>
+				
+				<p:row>
+					<p:column>
+						<h:outputLabel value="Senha:" for="senha" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column colspan="2">
+						<h:inputSecret id="senha" label="Senha" value="#{usuarioBean.usuario.senha}"
+						size="15" maxlength="10" required="#{empty contextoBean.usuarioLogado}" redisplay="false"/>
+						<p:watermark for="senha" value="Digite a senha" />
+					</p:column>
+				</p:row>
+				
+				<p:row>
+					<p:column>
+						<h:outputLabel value="Confirmar Senha:" for="confirmarsenha"/>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<h:inputSecret id="confirmarsenha" label="Confirmar Senha" value="#{usuarioBean.confirmarSenha}"
+							size="15" maxlength="10" required="#{empty contextoBean.usuarioLogado}" redisplay="false"/>
+						<p:watermark for="confirmarsenha" value="Confirme a senha" />
+					</p:column>
+				</p:row>	
+			</h:panelGrid>
+			<br />
+			<h:commandButton class="button ui-corner-all" action="#{usuarioBean.salvar}" value="Salvar"/>
+		</h:form>
+	
+	</ui:define>
+</ui:composition>
+</html>

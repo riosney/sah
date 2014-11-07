@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/templates/principal.xhtml">
+	<ui:define name="titulo">Cadastra de Profissão</ui:define>
+	<ui:define name="corpo">
+		
+		<p:messages id="mgns" autoUpdate="true" />
+		<h1>Cadastro de Profissão</h1>
+		
+		<h:form id="edicaoProfissao">
+			<h:inputHidden value="#{profissaoBean.selecionada.id}" />
+			<h:panelGrid>
+				<h:outputLabel value="Profissão: " for="profissao" />
+				<h:inputText requiredMessage="Opa! Falta a profissão" id="profissao"
+					value="#{profissaoBean.selecionada.nome}" size="50" />
+					
+				<h:commandButton styleClass="button ui-corner-all" value="Salvar" action="#{profissaoBean.salvar}">
+					<f:ajax execute="@form" render=":edicaoProfissao :listagemProfissao" />
+				</h:commandButton>
+			</h:panelGrid>
+		</h:form>
+		<br />
+		
+		<h:form id="listagemProfissao">
+			<h:dataTable value="#{profissaoBean.lista}" var="profissao" rendered="#{!empty profissaoBean.lista}">
+				<h:column>
+					<f:facet name="header">Profissão</f:facet>
+					<h:outputText value="#{profissao.nome}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">Editar</f:facet>
+					<h:commandLink>
+						<f:ajax execute="@this" render=":edicaoProfissao" />
+						<h:graphicImage library="imagens" name="editar16.png" />
+						<f:setPropertyActionListener target="#{profissaoBean.selecionada}" value="#{profissao}" />
+					</h:commandLink>
+				</h:column>
+				<h:column>
+					<f:facet name="header">Excluir</f:facet>
+					<h:commandLink action="#{profissaoBean.excluir}">
+						<f:ajax execute="@this" render=":listagemProfissao" />
+						<h:graphicImage library="imagens" name="editar16.png" />
+						<f:setPropertyActionListener target="#{profissaoBean.selecionada}" value="#{profissao}" />
+					</h:commandLink>
+				</h:column>
+			</h:dataTable>
+		</h:form>
+		
+	</ui:define>
+</ui:composition>
+</html>

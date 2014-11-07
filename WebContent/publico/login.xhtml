@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<meta http-equiv="pragma" content="nocache" /> 
+	<link rel="icon" href="../resources/imagens/favicon.ico" />
+	<title><ui:insert name="titulo">Sistema de Atendimento Habitacional</ui:insert></title>
+	<h:outputStylesheet library="css" name="estilo.css"/> 
+	<style type="text/css"><!--
+	#logotipo_home {
+		margin-bottom: 20px;
+		text-align: center;
+		padding: 10px;
+	} -->
+    </style>
+</h:head>
+<h:body class="basic">
+	<div id="container">
+		<div class="caixa_conteudo">
+			<div id="corpo">
+			
+				<div id="logotipo_home">
+					<h:graphicImage library="imagens" name="logotipo_g.png"/>
+				</div>
+			<div class="center">
+				
+				<h:panelGroup rendered="#{!empty param.login_error}">
+					<span style="font-color:red">Erro ao efetuar o login.</span><br />
+					<br />
+					Motivo: #{SPRING_SECURITY_LAST_EXCEPTION.message}
+				</h:panelGroup>
+				<form id="login" method="post" action="#{request.contextPath}/j_spring_security_check">
+					<table>
+						<tr>
+							<td class="titulos">Login</td>							
+						</tr>
+						<tr>
+							<td><input class="username" type='text' name='j_username' /></td>
+						</tr>
+						<tr>
+							<td class="titulos">Senha</td>					
+						</tr>
+						<tr>
+							<td><input class="password" type='password' name='j_password' /></td>
+						</tr>
+						<tr>
+							<td class="flagAutomatico">
+								<input type="checkbox" name="_spring_security_remember_me" />
+								Entrar automaticamente
+							</td>							
+						</tr>
+						<tr>							
+							<td><input class="button ui-corner-all" type="submit" value="Entrar" /></td>
+							<td></td>
+						</tr>
+					</table>
+					<script>
+						document.getElementById("login").j_username.value = "#{SPRING_SECURITY_LAST_USERNAME}";
+					</script>
+				</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</h:body>
+</html>

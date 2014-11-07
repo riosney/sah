@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/templates/principal.xhtml">
+	<ui:define name="titulo">Cadastro de Setor</ui:define>
+	<ui:define name="corpo">
+		<h1>Cadastro de Setor</h1>
+		<br />	
+		
+		<h:form id="edicaosetor">
+			<h:messages id="msgs" autoUpdate="true" />
+			<h:inputHidden value="#{setorBean.selecionada.id}" />
+			<h:panelGrid columns="2">
+				<h:outputLabel value="Setor: " for="setor" />
+				<h:inputText id="setor" value="#{setorBean.selecionada.nome}" required="true"
+					size="50" />
+					
+				<h:outputLabel value="Sigla: " for="sigla" />
+				<h:inputText id="sigla" value="#{setorBean.selecionada.sigla}" required="true"
+					 size="7" />
+				
+				<h:commandButton class="button ui-corner-all" value="Salvar" action="#{setorBean.salvar}" >
+					<f:ajax execute="@form" render=":edicaosetor :listagemsetor" />
+				</h:commandButton>
+				
+			</h:panelGrid>			
+		</h:form>
+		<br /> 
+		 
+		<h:form id="listagemsetor">
+			<h:dataTable value="#{setorBean.lista}" var="setor" rendered="#{!empty setorBean.lista}">
+				<h:column>
+					<f:facet name="header">Setor</f:facet>
+					<h:outputText value="#{setor.nome}"/>
+				</h:column>
+				<h:column>
+					<f:facet name="header">Sigla</f:facet>
+					<h:outputText value="#{setor.sigla}"/>
+				</h:column>
+				<h:column>
+					<f:facet name="header">Editar</f:facet>
+					<h:commandLink>
+						<f:ajax execute="@this" render=":edicaosetor" />
+						<h:graphicImage library="imagens" name="editar16.png" />
+						<f:setPropertyActionListener target="#{setorBean.selecionada}" value="#{setor}" />
+					</h:commandLink>
+				</h:column>
+				<h:column>
+					<f:facet name="header">Excluir</f:facet>
+					<h:commandLink action="#{setorBean.excluir}">
+						<f:ajax execute="@this" render=":listagemsetor" />
+						<h:graphicImage library="imagens" name="excluir16.png" />
+						<f:setPropertyActionListener target="#{setorBean.selecionada}" value="#{setor}" />
+					</h:commandLink>
+				</h:column>
+			</h:dataTable>
+		</h:form>
+
+		
+	</ui:define>	
+</ui:composition>
+</html>

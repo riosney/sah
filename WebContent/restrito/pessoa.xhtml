@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:stella="http://stella.caelum.com.br/faces2">
+
+<ui:composition template="/templates/principal.xhtml">
+	
+	<ui:define name="titulo">Cadastro de Cidadão</ui:define>
+	
+	<ui:define name="corpo">
+			
+		<h:form id="pessoa">
+			
+			<p:messages id="msgs" autoUpdate="true" />
+			
+			<h:inputHidden value="#{pessoaBean.selecionada.id}" />	
+			<table>
+				<tbody>
+				<tr>		
+					<td colspan="2"><h:outputLabel value="CPF: " for="cpf" /></td>				
+				</tr>
+				<tr>
+					<td><p:inputMask id="cpf" label="CPF" value="#{pessoaBean.selecionada.cpf}" size="16"
+							required="true" requiredMessage="Opa! Olha o CPF." 
+							converterMessage="Erro de converte" mask="999.999.999-99">
+						<stella:validateCPF formatted="true"/>
+						<p:ajax update="idcpf" event="blur" listener="#{pessoaBean.confereCPF}" />
+						</p:inputMask></td>
+					<td colspan="2"><p:messages id="idcpf" for="cpf" display="text" /></td>		
+				</tr>
+				</tbody>
+				<tr>
+					<td><h:outputLabel value="Nome: " for="nome"  /></td>
+				</tr>
+				<tr>
+					<td colspan="3"><h:inputText id="nome" label="nome" value="#{pessoaBean.selecionada.nome}" size="50" 
+						class="ui-inputfield ui-widget ui-state-default ui-corner-all" 
+						required="true" requiredMessage="Falta o nome!"
+						validatorMessage="Nome mínimo 3 digitos e apenas letras">
+						<f:validateRegex pattern="[^\?\[\]\=\*\#\+\$\%\@\/\-\.]{3,150}" />
+						</h:inputText> </td>
+					<td><p:message id="idnome" for="nome" display="text" /></td>
+				</tr>
+				
+				<tr>
+					<td colspan="2"><h:outputLabel value="Sexo:" for="sexo"/></td>
+					<td colspan="2"><h:outputLabel value="Data Nascimento:" for="data"/></td>
+				</tr>
+				
+				<tr>
+					<td>
+						<h:selectOneMenu id="sexo" value="#{pessoaBean.selecionada.sexo}" required="true"				
+						class="ui-inputfield ui-widget ui-state-default ui-corner-all"
+						requiredMessage="Falta o sexo">
+						<f:selectItem noSelectionOption="true" itemLabel="Selecione"/>
+						<f:selectItem itemValue="H" itemLabel="Masculino"/>
+						<f:selectItem itemValue="M" itemLabel="Feminino"/>
+						</h:selectOneMenu>
+					</td>
+					<td><p:message id="idsexo" for="sexo" display="text" /></td>
+					<td>
+						<p:inputMask id="data" label="Data Nascimento" value="#{pessoaBean.selecionada.dtNascimento}"
+			            	size="11" required="true" locale="pt_BR" mask="99/99/9999" requiredMessage="Falta data de nascimento!">
+			            	<f:convertDateTime dateStyle="short" pattern="dd/MM/yyyy" timeZone="GMT-3" />            	
+			            </p:inputMask>
+					</td>
+					<td><p:message id="idnasc" for="data" display="text" /></td>
+				</tr>    		
+			
+				<tr>
+					<td colspan="2"><h:outputLabel value="RG: " for="rg" /></td>
+					<td colspan="2"><h:outputLabel value="Orgão expeditor: " for="orgaoexpeditor" /></td>
+				</tr>
+				
+				<tr>
+					<td colspan="2">
+						<h:inputText id="rg" label="RG" value="#{pessoaBean.selecionada.rg}" size="16"
+						maxlength="14" class="ui-inputfield ui-widget ui-state-default ui-corner-all" />
+					</td>
+					<td colspan="2">
+						<h:inputText id="orgaoexpeditor" label="Orgão expeditor" 
+						value="#{pessoaBean.selecionada.orgaoExpeditor}" size="5" 
+						class="ui-inputfield ui-widget ui-state-default ui-corner-all" />
+					</td>
+				</tr>
+			
+				<tr>
+					<td colspan="4">
+						<h:outputLabel value="Bairro:" for="bairro"/>
+					</td>
+				</tr>
+				<tr>			
+					<td colspan="4">
+						<h:selectOneMenu value="#{pessoaBean.selecionada.bairro}" id="bairro"
+							class="ui-inputfield ui-widget ui-state-default ui-corner-all">				
+							<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>
+							<f:selectItems value="#{bairroBean.lista}" var="tipo" itemLabel="#{tipo.nome}" />
+						</h:selectOneMenu>
+					</td>
+				</tr>
+				
+				<tr>
+					<td colspan="4">
+						<h:outputLabel value="Grau escolaridade:" for="tipograuescolaridade"/>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="4">
+						<h:selectOneMenu value="#{pessoaBean.selecionada.tipoGrauEscolaridade}" id="tipograuescolaridade"
+							class="ui-inputfield ui-widget ui-state-default ui-corner-all">				
+							<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>
+							<f:selectItems value="#{tipoGrauEscolaridadeBean.lista}" var="tipo" itemLabel="#{tipo.nome}" />
+						</h:selectOneMenu>
+					</td>
+				</tr>
+			
+				<tr>
+					<td colspan="3">
+						<p:panel header="Contatos"> 
+							<h:panelGrid columns="3" id="gridt">
+					            <h:outputLabel value="Telefone: *" for="txt_numero"></h:outputLabel>
+					            <p:inputMask id="txt_numero" 
+					            	value="#{pessoaBean.telefoneBean.selecionada.numero}" mask="(99) 99999999?9" 
+					            	converter="removerCaracteres" >
+					            	<p:ajax update="idtel" event="change" listener="#{pessoaBean.confereCampoTelefone}" />
+					            </p:inputMask>	
+					               		                             
+					            <p:commandButton id="btn_add" value="Adicionar" update="listatel msgs @parent"  
+					                            action="#{pessoaBean.telefoneBean.criarNovo}" >
+					                <p:collector value="#{pessoaBean.telefoneBean.selecionada}"   
+					                            addTo="#{pessoaBean.listaPessoaTel}" /> 
+					            </p:commandButton>
+				        	</h:panelGrid>	       		
+				       	<p:outputPanel id="listatel"> 
+					        <p:dataTable id="listaTelefone" value="#{pessoaBean.listaPessoaTel}" var="listas"
+					        		emptyMessage="Nenhum telefone cadastrado">
+					  
+					            <p:column>  
+					                <f:facet name="header">  
+					                    <h:outputText value="Telefone" />  
+					                </f:facet>  
+					                <h:outputText value="#{listas.numero}" />  
+					            </p:column>
+					  
+					            <p:column>  
+					                <f:facet name="header">  
+					                    <h:outputText value="Operação" /> 
+					                </f:facet>  
+					                <p:commandLink value="Remover" update=":pessoa:listatel" process="@this">
+					                    <p:collector value="#{listas}"  
+					                    	removeFrom="#{pessoaBean.listaPessoaTel}" />
+					                </p:commandLink>  
+					            </p:column>  
+					  
+					        </p:dataTable>  
+					    </p:outputPanel>		    
+					    <p:messages id="idtel" for="txt_numero" display="text"  /> 
+					    </p:panel>
+			    	</td>
+		    	</tr>
+			
+				<tr>
+					<td colspan="3">	
+						<p:panel header="Deficiente">
+							<h:panelGrid columns="3" id="gridf">
+								<h:selectOneMenu value="#{pessoaBean.tipoDeficienciaFisicaBean.selecionada}" 
+									converter="tipoDfConverter" id="tipoDeficienciaFisica">
+									<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+									<f:selectItems value="#{tipoDeficienciaFisicaBean.lista}" var="tipo" itemLabel="#{tipo.dstipodeficienciafisica}" />
+								</h:selectOneMenu>
+								
+								<p:commandButton id="btn_add_def" value="Adicionar" update="listadef msgs @parent"  
+						                            action="#{pessoaBean.tipoDeficienciaFisicaBean.criarNovo}" >
+						                <p:collector value="#{pessoaBean.tipoDeficienciaFisicaBean.selecionada}"   
+						                            addTo="#{pessoaBean.listaDef}" /> 
+						        </p:commandButton>
+					        </h:panelGrid>        	
+			        	
+			        	<p:outputPanel id="listadef">  
+					        <p:dataTable id="listaDeficiente" value="#{pessoaBean.listaDef}" var="listas"
+					        		emptyMessage="Nenhuma deficiência">
+					  
+					            <p:column>  
+					                <f:facet name="header">  
+					                    <h:outputText value="Deficiência" />  
+					                </f:facet>  
+					                <h:outputText value="#{listas.dstipodeficienciafisica}" />  
+					            </p:column>
+					  
+					            <p:column>  
+					                <f:facet name="header">  
+					                    <h:outputText value="Operação" />
+					                </f:facet>  
+					                <p:commandLink value="Remover" update=":pessoa:listadef" process="@this">  
+					                    <p:collector value="#{listas}"  
+					                                 removeFrom="#{pessoaBean.listaDef}" />
+					                </p:commandLink>  
+					            </p:column>  
+					  
+					        </p:dataTable>  
+					    </p:outputPanel>
+					    </p:panel>
+					</td>
+		    	</tr>
+		    	
+				<tr>
+					<td>
+						<h:outputLabel value="Nome do pai: " for="nomepai" />
+					</td>
+				</tr>			
+				<tr>
+					<td colspan="3">
+						<h:inputText id="nomepai" label="Nome Pai" value="#{pessoaBean.selecionada.nomePai}" size="50"
+						validatorMessage="Nome do pai mínimo 3 digitos e apenas letras"
+						class="ui-inputfield ui-widget ui-state-default ui-corner-all">
+						<f:validateRegex pattern="[^\?\[\]\=\*\#\+\$\%\@\/\-\.]{3,150}" />
+						</h:inputText>
+					</td>
+					<td><p:message id="idpai" for="nomepai" display="text" /></td>
+				</tr>
+				
+				<tr>
+					<td>
+						<h:outputLabel value="Nome da mãe: " for="nomemae" />
+					</td>
+				</tr>
+				<tr>
+					<td colspan="3">
+						<h:inputText id="nomemae" label="Nome da mãe" value="#{pessoaBean.selecionada.nomeMae}" size="50"
+								maxlength="150" validatorMessage="Nome da mãe mínimo 3 digitos e apenas letras"
+								class="ui-inputfield ui-widget ui-state-default ui-corner-all">
+							<f:validateRegex pattern="[^\?\[\]\=\*\#\+\$\%\@\/\-\.]{3,150}" />
+						</h:inputText>
+					</td>
+				</tr>	
+			
+			</table>
+				
+			<h:commandButton class="button ui-corner-all bt-salvar" action="#{pessoaBean.salvar}" value="Salvar" />
+		</h:form>
+	
+	</ui:define>
+	
+</ui:composition>
+</html>

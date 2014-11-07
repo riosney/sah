@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+		<!-- Configuração da conexão com o banco PostgreSQL e dialeto -->
+		<property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+		<property name="connection.datasource">java:/comp/env/jdbc/SahDB</property>
+		<!-- Indica que a sessão atual do Hibernate deve ser diferente a cada nova Thread -->
+		<property name="current_session_context_class">thread</property>
+		<!-- Cria as tabelas de persistência mapeadas automaticamente -->
+		<property name="hibernate.hbm2ddl.auto">update</property>
+		
+		<!-- Mapeando classes -->		
+		<mapping class="sah.bairro.Bairro" />
+		<mapping class="sah.estado.Estado" />
+		<mapping class="sah.cidade.Cidade" />
+		<mapping class="sah.pessoa.Pessoa" />
+		<mapping class="sah.setor.Setor" />
+		<mapping class="sah.historicoAtendimento.HistoricoAtendimento" />
+		<mapping class="sah.profissao.Profissao" />
+		<mapping class="sah.regional.Regional" />
+		<mapping class="sah.tipoEstadoCivil.TipoEstadoCivil" />
+		<mapping class="sah.tipoFaixaEtaria.TipoFaixaEtaria" />
+		<mapping class="sah.tipoGrauEscolaridade.TipoGrauEscolaridade" />
+		<mapping class="sah.tipoRelacionamentoFamilia.TipoRelacionamentoFamilia" />
+		<mapping class="sah.usuario.Usuario" />
+		<mapping class="sah.telefone.Telefone" />
+		<mapping class="sah.projeto.Projeto" />
+		<mapping class="sah.tipoDeficienciaFisica.TipoDeficienciaFisica" />
+		<mapping class="sah.web.conversor.PessoaConverter" />
+		<mapping class="sah.web.ConteudoBean" />		
+		
+		<!-- Sendo usado o arquivo context.xml para DataSource JNDI  
+		<property name="connection.driver_class">org.postgresql.Driver</property>
+		<property name="connection.url">jdbc:postgresql://localhost:5432/sah</property>
+		<property name="connection.username">postgres</property>
+		<property name="connection.password">12345</property>
+		-->
+		
+		<!--  <property name="connection.url">jdbc:postgresql://192.168.254.22:5432/sah</property> -->
+		<!-- <property name="connection.password">mala123</property> -->		
+
+		<!-- Usando as configurações do C3PO para pool de conexões 
+		<property name="c3po.min_size">5</property>
+		<property name="c3po.max_size">20</property>
+		<property name="c3po.timeout">300</property>
+		<property name="c3po.max_statements">50</property>
+		<property name="c3po.idle_test_period">3000</property>
+		-->
+		
+		<!-- Configurações de debug		
+		<property name="show_sql">true</property>
+		<property name="format_sql">true</property>
+		<property name="generate_statistics">true</property>
+		<property name="use_sql_comments">true</property>
+		--> 		
+		
+	</session-factory>
+</hibernate-configuration>

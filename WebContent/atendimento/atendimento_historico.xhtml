@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:stella="http://stella.caelum.com.br/faces2">
+
+<ui:composition template="/templates/principal.xhtml">
+	<ui:define name="titulo">Atendimento Histórico</ui:define>
+	<ui:define name="corpo">
+
+		<h:form id="buscarCidadao">
+			<p:panel id="panel" header="Buscar por CPF"
+				style="margin-bottom:10px;">
+				<p:messages id="msgs" autoUpdate="true" />
+
+				<h:panelGrid columns="3" id="gridt">
+					<p:inputMask id="cpf" label="CPF"
+						value="#{pessoaBean.selecionada.cpf}" size="16"
+						converterMessage="Erro de converte" mask="999.999.999-99">
+						<stella:validateCPF formatted="true" />
+					</p:inputMask>
+					<p:commandButton value="Buscar" update="historico msgs @parent"
+						action="#{pessoaBean.confereCadastro}">
+						<f:param name="buscaCpf" value="buscarHistoricoAtendimento" />
+					</p:commandButton>
+				</h:panelGrid>
+
+				<h:panelGrid id="historico">
+
+					<p:dataTable id="tabelaHistorico"
+						value="#{pessoaBean.listaConsulta}" var="lista"
+						emptyMessage="CPF não cadastrado">
+
+						<p:column headerText="Data:">
+							<h:outputText value="#{lista.dataAtendimento}">
+								<f:convertDateTime dateStyle="short" pattern="dd/MM/yyyy"
+									timeZone="GMT-3" />
+							</h:outputText>
+						</p:column>
+
+						<p:column headerText="Usuario:">
+							<h:outputText value="#{lista.usuario.nome}" />
+						</p:column>
+
+						<p:column headerText="Setor:">
+							<h:outputText value="#{lista.setor.sigla}" />
+						</p:column>
+
+						<p:column headerText="Assunto:">
+							<h:outputText value="#{lista.assuntooutros}" />
+						</p:column>
+
+						<p:column headerText="Observações:">
+							<h:outputText value="#{lista.observacoes}" />
+						</p:column>
+
+						<p:column>
+							<f:facet name="header">Editar</f:facet>
+							<p:commandLink action="#{historicoAtendimentoBean.novo}">
+								<h:graphicImage library="imagens" name="editar16.png" />
+								<f:setPropertyActionListener
+									target="#{historicoAtendimentoBean.selecionada}"
+									value="#{lista}" />
+								<f:param name="idpessoa" value="#{lista.pessoaatendimento.id}" />
+							</p:commandLink>
+						</p:column>
+
+						<p:column>
+							<h:commandLink>
+								<f:setPropertyActionListener
+									target="#{historicoAtendimentoBean.tipoRelatorio}" value="1" />
+								<p:fileDownload
+									value="#{historicoAtendimentoBean.arquivoRetorno}" />
+								<h:graphicImage library="imagens" name="pdf.png"
+									title="Imprimir PDF" />
+								<f:param name="idpessoa" value="#{lista.pessoaatendimento.id}" />
+							</h:commandLink>
+						</p:column>
+
+					</p:dataTable>
+
+				</h:panelGrid>
+			</p:panel>
+
+			<!-- <h3>Exporta PDF</h3>
+			<h:commandLink>
+				<p:graphicImage library="imagens" name="pdf.png" />
+				<p:dataExporter type="pdf" target="tabelaHistorico" fileName="lista"
+					pageOnly="true" />
+			</h:commandLink> -->
+
+		</h:form>
+
+		<h:form id="impressao">			
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+</html>

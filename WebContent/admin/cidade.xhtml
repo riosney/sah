@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/templates/principal.xhtml">
+	<ui:define name="titulo">Cadastro de Cidade</ui:define>
+	<ui:define name="corpo">
+		<h1>Cadastro de Cidades</h1>
+		
+		<h:form id="edicaocidade">
+			<p:messages id="msgs" autoUpdate="true" />
+			<h:inputHidden value="#{cidadeBean.selecionada.id}" />
+			<h:panelGrid columns="2">
+				
+				<h:outputLabel value="Estado:" for="estado"/>
+				<h:selectOneMenu value="#{cidadeBean.selecionada.estado}" id="estado"
+					class="ui-inputfield ui-widget ui-state-default ui-corner-all">				
+					<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>
+					<f:selectItems value="#{estadoBean.lista}" var="tipo" itemLabel="#{tipo.nome}" />
+				</h:selectOneMenu>
+				
+				<h:outputLabel value="Cidade: " for="cidade" />
+				<h:inputText id="cidade" value="#{cidadeBean.selecionada.nome}" required="true"
+					size="50" />
+					
+				<h:commandButton class="button ui-corner-all" value="Salvar" action="#{cidadeBean.salvar}" >
+					<f:ajax execute="@form" render=":edicaocidade :listagemcidade" />
+				</h:commandButton>
+				
+			</h:panelGrid>			
+		</h:form>
+		<br /> 
+		 
+		<h:form id="listagemcidade">
+			<h:dataTable value="#{cidadeBean.lista}" var="cidade" rendered="#{!empty cidadeBean.lista}">
+				<h:column>
+					<f:facet name="header">Cidade</f:facet>
+					<h:outputText value="#{cidade.nome}"/>
+				</h:column>
+				
+				<h:column>
+					<f:facet name="header">Estado</f:facet>
+					<h:outputText value="#{cidade.estado.nome}"/>
+				</h:column>
+				
+				<h:column>
+					<f:facet name="header">Editar</f:facet>
+					<h:commandLink>
+						<f:ajax execute="@this" render=":edicaocidade" />
+						<h:graphicImage library="imagens" name="editar16.png" />
+						<f:setPropertyActionListener target="#{cidadeBean.selecionada}" value="#{cidade}" />
+					</h:commandLink>
+				</h:column>
+				
+				<h:column>
+					<f:facet name="header">Excluir</f:facet>
+					<h:commandLink action="#{cidadeBean.excluir}">
+						<f:ajax execute="@this" render=":listagemcidade" />
+						<h:graphicImage library="imagens" name="excluir16.png" />
+						<f:setPropertyActionListener target="#{cidadeBean.selecionada}" value="#{cidade}" />
+					</h:commandLink>
+				</h:column>
+			</h:dataTable>
+		</h:form>
+
+	</ui:define>	
+</ui:composition>
+</html>

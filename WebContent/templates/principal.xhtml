@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<meta http-equiv="pragma" content="nocache" />
+	<link rel="icon" href="../resources/imagens/favicon.ico" />
+	<title><ui:insert name="titulo">Sistema de Atendimento Habitacional</ui:insert></title>
+	<h:outputStylesheet library="css" name="estilo.css"/>  
+</h:head>
+<h:body class="basic">
+	<div id="container">
+		<div class="caixa_conteudo">
+		
+			<div class="topo_interno">
+				<h2>SAH</h2>		
+				<div id="logotipo">
+					<h:graphicImage library="imagens" name="logotipo_g.png"/>
+				</div>
+				<br clear="all" />
+			</div><!-- FIM topo_interno -->			
+			
+			<div id="barra_menu">
+		    	<ui:insert name="barra_menu">
+		    		<ui:include src="/restrito/menu_sistema.xhtml"/>
+		   		</ui:insert>   
+		   		<br clear="all" />
+			</div><!-- FIM barra_menu -->			
+			
+			<div id="corpo" class="ui-corner-all ui-layout-unit-content ui-widget-content">			
+				<div class="ui-corner-all coluna_esquerda ui-widget-content">
+					<ui:insert name="esquerda"/>
+				</div><!-- FIM coluna_esquerda -->
+				
+				<div class="ui-corner-all coluna_centro ui-widget-content">
+						<ui:insert name="corpo"/>
+				</div><!-- FIM coluna_centro -->
+				<br clear="all" />				
+			</div><!-- FIM corpo -->
+			
+		</div><!-- FIM caixa_conteudo -->		
+		<br clear="all" />
+		
+		<div id="rodape">
+	    	<ui:insert name="rodape">
+	    		<ui:include src="/publico/rodape.xhtml"/>
+	    	</ui:insert> 
+		</div><!-- FIM rodape -->
+	</div>
+</h:body>
+</html>

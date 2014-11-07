@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:sec="http://www.springframework.org/security/facelets/tags"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/templates/principal.xhtml">
+	<ui:define name="titulo">SAH - Sistema de Atendimento Habitacional</ui:define>
+		<ui:define name="esquerda">
+			<h3>Em breve...</h3>
+		</ui:define>
+		
+		<ui:define name="corpo">
+				
+			<h1>Gerenciador Pessoal</h1>
+	
+			<p> Usuário logado #{request.remoteUser} </p>
+			<br />
+			<p>Nome do Usuário Logado #{contextoBean.usuarioLogado.nome}</p>
+			<br />
+	
+			<h:form>
+			
+				<sec:ifAnyGranted roles="ROLE_ADMINISTRADOR">
+					<h:commandButton value="Administração" action="/admin/principal" />
+				</sec:ifAnyGranted>
+			
+				<input type="button" value="Logout"
+					onclick="document.location='#{request.contextPath}/j_spring_security_logout'" />
+				
+			</h:form>
+			
+			<br />
+			
+			<h:form>
+				<h:commandButton class="button" action="#{usuarioBean.novo}" value="Registre-se" />
+			</h:form>
+				
+		</ui:define>
+</ui:composition>
+</html>

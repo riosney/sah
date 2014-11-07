@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+<ui:composition template="/templates/interna.xhtml">
+<ui:define name="titulo">Atendimento MCMV</ui:define>
+<ui:define name="corpo">
+<div class="ui-grid ui-grid-responsive">
+	<div class="ui-grid-row">
+	
+		<div class="ui-grid-col-6 margin-right">	
+		<h:form id="algunsDadosPessoa">
+			<p:dataList value="#{historicoAtendimentoBean.listaPessoaAtual}" var="lista" type="definition">
+				<f:facet name="header">Informações</f:facet>
+				
+				<h:outputText styleClass="texto" value="Nome: " />
+				<h:outputText value="#{lista.pessoaatendimento.nome}" />
+				<br />
+				
+				<h:outputText styleClass="texto" value="CPF: " />
+				<h:outputText value="#{lista.pessoaatendimento.cpf}" />
+				<br />
+				
+				<h:outputText styleClass="texto" value="Bairro: " />
+				<h:outputText value="#{lista.pessoaatendimento.bairro.nome}" />
+				<br />			
+				
+	       		<p:dataTable id="listaTelefone" value="#{lista.pessoaatendimento.telefones}" 
+	       			emptyMessage="" var="fones">
+	       		<p:column headerText="Telefone(s)">		        		
+	       			<h:outputText id="telefone" value="#{fones.numero}" />
+	       		</p:column>
+	       		</p:dataTable>
+				<h:inputHidden value="lista.id" />
+			</p:dataList>
+			
+		</h:form>
+		</div>
+		
+		<div class="ui-grid-col-6">
+		    <p:accordionPanel value="#{historicoAtendimentoBean.lista}" var="historico" multiple="true">
+		        <p:tab title="Últimos Atendimentos - #{historico.dataAtendimento}">		        	
+		            <h:panelGrid columns="2" cellpadding="5">                 
+		                <h:outputText value="Atendente:" styleClass="bold" />
+		                <h:outputText value="#{historico.usuario.nome}" />
+		 
+		                <h:outputText value="Setor:" styleClass="bold" />
+		                <h:outputText value="#{historico.setor.sigla}" />
+		                
+		                <h:outputText value="Assunto: " styleClass="bold" />
+		                <h:outputText value="#{historico.assuntooutros}" />		                
+		                
+		                <h:outputText value="Observações: " styleClass="bold" />
+		                <h:outputText value="#{historico.observacoes}" />
+		                
+		            </h:panelGrid>
+		        </p:tab>
+		    </p:accordionPanel>
+		</div>
+	</div>
+	<div class="ui-grid-row">
+		<div class="ui-grid-col-12" style="display: #{historicoAtendimentoBean.displayCSS};">
+			<h:form id="atendimentoSetor">
+				<p:messages id="msgs" autoUpdate="true" />
+				<h:inputHidden value="#{historicoAtendimentoBean.selecionada.id}" />
+					<h:panelGrid id="novoAtendimento">
+					<p:column>
+						<h3>Observações</h3>
+						<p:inputTextarea rows="7" cols="70" value="#{historicoAtendimentoBean.selecionada.observacoes}" />
+					</p:column>
+					<p:column>  
+		                <p:commandButton value="Salvar" action="#{historicoAtendimentoBean.salvar}"
+	       					update="atendimentoSetor">
+	       					<f:param name="estadoDoAtendimento" value="Finalizado" />
+	       				</p:commandButton>			
+		            </p:column>
+		            <h:inputHidden value="#{historicoAtendimentoBean.listaPessoaAtual.pessoaatendimento}" />
+		            
+				</h:panelGrid>			
+			</h:form>
+		</div>
+	</div>
+</div>
+</ui:define>
+</ui:composition>
+</html>
